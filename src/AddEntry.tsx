@@ -1,5 +1,6 @@
 import { useState } from "react"
 import type { StudyEntry } from "./Logic"
+import { TextField, Button, Box } from "@mui/material"
 
 interface Props {
   addEntry: (entry: StudyEntry) => void
@@ -22,55 +23,60 @@ const handleSubmit = (event: React.FormEvent) => {
   setDate("")
 }
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="subject-input">Subject</label>
-      <input
-        id="subject-input"
-        placeholder="Subject"
-        value={subject}
-        onChange={(event) => setSubject(event.target.value)}
-        required
-      />
-      <label htmlFor="topic-input">Topic</label>
-      <input
-        id="topic-input"
-        placeholder="Topic"
-        value={topic}
-        onChange={(event) => setTopic(event.target.value)}
-        required
-      />
-      <label htmlFor="hours-input">Hours</label>
+return (
+  <Box
+    component="form"
+    onSubmit={handleSubmit}
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      gap: 2,
+      maxWidth: 400,
+      margin: "2rem auto",
+    }}
+  >
+    <TextField
+      label="Subject"
+      value={subject}
+      onChange={(e) => setSubject(e.target.value)}
+      required
+    />
 
-      <input
-        id="hours-input"
-        type="number"
-        placeholder="Hours"
-        value={hours}
-        onChange={(event) => setHours(Number(event.target.value))}
-        required
-      />
-      <label htmlFor="notes-input">Notes</label>
+    <TextField
+      label="Topic"
+      value={topic}
+      onChange={(e) => setTopic(e.target.value)}
+      required
+    />
 
-      <input
-        id="notes-input"
-        placeholder="Notes"
-        value={notes}
-        onChange={(event) => setNotes(event.target.value)}
-      />
-      <label htmlFor="date-input">Subject</label>
+    <TextField
+      label="Hours"
+      type="number"
+      value={hours}
+      onChange={(e) => setHours(Number(e.target.value))}
+      required
+    />
 
-      <input
-        id="date-input"
-        type="date"
-        value={date}
-        onChange={(event) => setDate(event.target.value)}
-        required
-      />
+    <TextField
+      label="Notes"
+      value={notes}
+      onChange={(e) => setNotes(e.target.value)}
+    />
 
-      <button type="submit">Add Entry</button>
-    </form>
-  )
+    <TextField
+      label="Date"
+      type="date"
+      value={date}
+      onChange={(e) => setDate(e.target.value)}
+      InputLabelProps={{ shrink: true }}
+      required
+    />
+
+    <Button type="submit" variant="contained" color="primary">
+      Add Entry
+    </Button>
+  </Box>
+)
 }
 
 export default AddEntry
