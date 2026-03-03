@@ -1,11 +1,11 @@
 .app-heading {
   font-weight: 800;
   font-size: 3em;
-  background: linear-gradient(90deg, #9188f1, #C68EFD, #E9A5F1);
-  -webkit-background-clip: text; 
-  -webkit-text-fill-color: transparent; 
-  background-clip: text; 
-  color: transparent; 
+  background: linear-gradient(90deg, #9188f1, #c68efd, #e9a5f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
   text-align: center;
   margin-top: 3em;
   margin-bottom: 2em;
