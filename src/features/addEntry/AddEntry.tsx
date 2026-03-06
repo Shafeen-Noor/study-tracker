@@ -1,12 +1,14 @@
 import { useState } from "react"
-import type { StudyEntry } from "./Logic"
+import { useOutletContext } from "react-router-dom"
+import type { StudyEntry } from "../../Logic"
 import { TextField, Button, Box } from "@mui/material"
 
-interface Props {
+interface OutletContext {
   addEntry: (entry: StudyEntry) => void
 }
 
-const AddEntry: React.FC<Props> = ({ addEntry }) => {
+const AddEntry: React.FC = () => {
+  const { addEntry } = useOutletContext<OutletContext>()
   const [subject, setSubject] = useState("")
   const [topic, setTopic] = useState("")
   const [hours, setHours] = useState(0)

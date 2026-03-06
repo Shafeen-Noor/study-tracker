@@ -1,12 +1,13 @@
-import type { StudyEntry } from "./Logic"
-import "./App.css"
+import type { StudyEntry } from "../../Logic"
 import { List, ListItem, ListItemText, Typography, Paper } from "@mui/material"
+import { useOutletContext } from "react-router-dom"
 
-interface Props {
+interface OutletContext {
   entries: StudyEntry[]
 }
 
-const EntryList: React.FC<Props> = ({ entries }) => {
+const EntryList: React.FC = () => {
+  const { entries } = useOutletContext<OutletContext>()
   return (
     <Paper sx={{ maxWidth: 600, margin: "2rem auto", padding: 2 }}>
       <Typography variant="h5" gutterBottom>

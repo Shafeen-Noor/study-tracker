@@ -1,8 +1,6 @@
 import { useState } from "react"
-import AddEntry from "./AddEntry"
-import EntryList from "./EntryList"
+import { Outlet } from "react-router-dom"
 import type { StudyEntry } from "./Logic"
-import { Container, Typography, Box } from "@mui/material"
 
 const App: React.FC = () => {
   const [entries, setEntries] = useState<StudyEntry[]>([])
@@ -11,18 +9,7 @@ const App: React.FC = () => {
     setEntries([...entries, entry])
   }
 
-  return (
-    <Container>
-      <Box className="app-container">
-        <Typography variant="h3" className="app-heading">
-          Study Tracker
-        </Typography>
-      </Box>
-
-      <AddEntry addEntry={addEntry} />
-      <EntryList entries={entries} />
-    </Container>
-  )
+  return <Outlet context={{ entries, addEntry }} />
 }
 
 export default App
