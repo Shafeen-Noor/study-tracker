@@ -22,7 +22,6 @@ const RootLayout: React.FC = () => {
         </Toolbar>
       </AppBar>
 
-      {/* 👇 This is where each page renders */}
       <Container>
         <Outlet />
       </Container>

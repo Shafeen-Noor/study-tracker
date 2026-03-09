@@ -13,26 +13,29 @@ const theme = createTheme({
   palette: { primary: { main: "#9188f1" } },
 })
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      {
-        element: <App />,
-        children: [
-          { index: true, element: <Dashboard /> },
-          { path: "add", element: <AddEntry /> },
-          { path: "entries", element: <EntryList /> }
-        ],
-      },
-    ],
-  },
-])
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <RootLayout />,
+      children: [
+        {
+          element: <App />,
+          children: [
+            { index: true, element: <Dashboard /> },
+            { path: "add", element: <AddEntry /> },
+            { path: "entries", element: <EntryList /> },
+          ],
+        },
+      ],
+    },
+  ],
+  { basename: "/study-tracker/" },
+)
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
     <RouterProvider router={router} />
-  </ThemeProvider>
+  </ThemeProvider>,
 )

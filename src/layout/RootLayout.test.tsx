@@ -1,27 +1,24 @@
-import { render, screen } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
-import RootLayout from './RootLayout'
+import { render, screen } from "@testing-library/react"
+import { MemoryRouter } from "react-router-dom"
+import RootLayout from "./RootLayout"
 
-
-describe('RootLayout', () => {
-
-  it('smoke: renders without crashing', () => {
+describe("RootLayout", () => {
+  it("smoke: renders without crashing", () => {
     render(
       <MemoryRouter>
         <RootLayout />
-      </MemoryRouter>
+      </MemoryRouter>,
     )
   })
 
-  it('smoke: shows navigation links', () => {
+  it("smoke: shows navigation links", () => {
     render(
       <MemoryRouter>
         <RootLayout />
-      </MemoryRouter>
+      </MemoryRouter>,
     )
-    expect(screen.getByText('Dashboard')).toBeInTheDocument()
-    expect(screen.getByText('Add Entry')).toBeInTheDocument()
-    expect(screen.getByText('My Entries')).toBeInTheDocument()
+    expect(screen.getByText("Dashboard")).toBeInTheDocument()
+    expect(screen.getByText("Add Entry")).toBeInTheDocument()
+    expect(screen.getByText("My Entries")).toBeInTheDocument()
   })
-
 })
