@@ -1,6 +1,7 @@
-import type { StudyEntry } from "../../Logic"
-import { List, ListItem, ListItemText, Typography, Paper } from "@mui/material"
 import { useOutletContext } from "react-router-dom"
+import { List, ListItem, ListItemText, Typography, Paper, TextField } from "@mui/material"
+import { useFilter } from "../../context/FilterContext"
+import type { StudyEntry } from "../../Logic"
 
 interface OutletContext {
   entries: StudyEntry[]
@@ -8,14 +9,26 @@ interface OutletContext {
 
 const EntryList: React.FC = () => {
   const { entries } = useOutletContext<OutletContext>()
+  const { filterSubject, setFilterSubject } = useFilter()
+
+  const filtered = entries.filter(e =>
+    e.subject.toLowerCase().includes(filterSubject.toLowerCase())
+  )
+
   return (
     <Paper sx={{ maxWidth: 600, margin: "2rem auto", padding: 2 }}>
-      <Typography variant="h5" gutterBottom>
-        Study Entries
-      </Typography>
+      <Typography variant="h5" gutterBottom>Study Entries</Typography>
+
+      <TextField
+        label="Filter by subject"
+        value={filterSubject}
+        onChange={(e) => setFilterSubject(e.target.value)}
+        fullWidth
+        sx={{ mb: 2 }}
+      />
 
       <List>
-        {entries.map((entry, index) => (
+        {filtered.map((entry: StudyEntry, index: number) => (
           <ListItem key={index}>
             <ListItemText
               primary={`${entry.subject} - ${entry.topic}`}

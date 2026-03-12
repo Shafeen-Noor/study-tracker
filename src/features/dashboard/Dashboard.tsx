@@ -1,6 +1,7 @@
 import type { StudyEntry } from "../../Logic"
 import { Box, Typography, Paper } from "@mui/material"
 import { useOutletContext } from "react-router-dom"
+import { useFilter } from "../../context/FilterContext"
 
 interface OutletContext {
   entries: StudyEntry[]
@@ -8,16 +9,24 @@ interface OutletContext {
 
 const Dashboard: React.FC = () => {
   const { entries } = useOutletContext<OutletContext>()
+  const { filterSubject } = useFilter()
+
   const totalHours = entries.reduce((sum, e) => sum + e.hours, 0)
   const totalEntries = entries.length
-
   const subjects = [...new Set(entries.map((e) => e.subject))]
 
   return (
     <Box sx={{ maxWidth: 600, margin: "2rem auto" }}>
+
       <Typography variant="h5" gutterBottom>
         Dashboard
       </Typography>
+
+      {filterSubject && (
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Showing results for: <strong>{filterSubject}</strong>
+        </Typography>
+      )}
 
       <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
         <Paper sx={{ flex: 1, padding: 2, textAlign: "center" }}>
@@ -57,12 +66,7 @@ const Dashboard: React.FC = () => {
           return (
             <Paper
               key={subject}
-              sx={{
-                padding: 2,
-                mb: 1,
-                display: "flex",
-                justifyContent: "space-between",
-              }}
+              sx={{ padding: 2, mb: 1, display: "flex", justifyContent: "space-between" }}
             >
               <Typography>{subject}</Typography>
               <Typography fontWeight="bold">{subjectHours} hrs</Typography>
@@ -70,6 +74,7 @@ const Dashboard: React.FC = () => {
           )
         })
       )}
+
     </Box>
   )
 }
