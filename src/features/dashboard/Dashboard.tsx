@@ -17,7 +17,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box sx={{ maxWidth: 600, margin: "2rem auto" }}>
-
       <Typography variant="h5" gutterBottom>
         Dashboard
       </Typography>
@@ -66,7 +65,12 @@ const Dashboard: React.FC = () => {
           return (
             <Paper
               key={subject}
-              sx={{ padding: 2, mb: 1, display: "flex", justifyContent: "space-between" }}
+              sx={{
+                padding: 2,
+                mb: 1,
+                display: "flex",
+                justifyContent: "space-between",
+              }}
             >
               <Typography>{subject}</Typography>
               <Typography fontWeight="bold">{subjectHours} hrs</Typography>
@@ -74,7 +78,6 @@ const Dashboard: React.FC = () => {
           )
         })
       )}
-
     </Box>
   )
 }

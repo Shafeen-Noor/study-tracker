@@ -1,5 +1,12 @@
 import { useOutletContext } from "react-router-dom"
-import { List, ListItem, ListItemText, Typography, Paper, TextField } from "@mui/material"
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Paper,
+  TextField,
+} from "@mui/material"
 import { useFilter } from "../../context/FilterContext"
 import type { StudyEntry } from "../../Logic"
 
@@ -11,13 +18,15 @@ const EntryList: React.FC = () => {
   const { entries } = useOutletContext<OutletContext>()
   const { filterSubject, setFilterSubject } = useFilter()
 
-  const filtered = entries.filter(e =>
-    e.subject.toLowerCase().includes(filterSubject.toLowerCase())
+  const filtered = entries.filter((e) =>
+    e.subject.toLowerCase().includes(filterSubject.toLowerCase()),
   )
 
   return (
     <Paper sx={{ maxWidth: 600, margin: "2rem auto", padding: 2 }}>
-      <Typography variant="h5" gutterBottom>Study Entries</Typography>
+      <Typography variant="h5" gutterBottom>
+        Study Entries
+      </Typography>
 
       <TextField
         label="Filter by subject"

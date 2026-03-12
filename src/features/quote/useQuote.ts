@@ -5,7 +5,7 @@ export function useQuote() {
   return useQuery({
     queryKey: ["quote"],
     queryFn: fetchRandomQuote,
-    staleTime: Infinity,      // don't auto-refetch, only refetch on button click
+    staleTime: Infinity, // don't auto-refetch, only refetch on button click
     retry: 1,
   })
 }

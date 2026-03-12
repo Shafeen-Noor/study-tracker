@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react"
-import { useOutletContext } from "react-router-dom"
+import { MemoryRouter, useOutletContext } from "react-router-dom"
+import { FilterProvider } from "../../context/FilterContext"
 import EntryList from "./EntryList"
 import type { StudyEntry } from "../../Logic"
 
@@ -8,42 +9,51 @@ const mockEntries: StudyEntry[] = [
   { subject: "Science", topic: "Biology", hours: 1, date: "2024-01-16" },
 ]
 
-vi.mock("react-router-dom", () => ({
-  useOutletContext: vi.fn(() => ({ entries: mockEntries })),
-}))
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual("react-router-dom")
+  return {
+    ...actual,
+    useOutletContext: vi.fn(() => ({ entries: mockEntries })),
+  }
+})
+
+const Wrapper = ({ children }: { children: React.ReactNode }) => (
+  <FilterProvider>
+    <MemoryRouter>{children}</MemoryRouter>
+  </FilterProvider>
+)
 
 describe("EntryList", () => {
   it("smoke: renders without crashing", () => {
-    render(<EntryList />)
+    render(<EntryList />, { wrapper: Wrapper })
   })
 
   it("smoke: shows the heading", () => {
-    render(<EntryList />)
+    render(<EntryList />, { wrapper: Wrapper })
     expect(screen.getByText("Study Entries")).toBeInTheDocument()
   })
 
   it("comprehensive: renders all entries", () => {
-    render(<EntryList />)
+    render(<EntryList />, { wrapper: Wrapper })
     expect(screen.getByText("Math - Algebra")).toBeInTheDocument()
     expect(screen.getByText("Science - Biology")).toBeInTheDocument()
   })
 
   it("comprehensive: shows hours for each entry", () => {
-    render(<EntryList />)
+    render(<EntryList />, { wrapper: Wrapper })
     expect(screen.getByText(/2 hrs/)).toBeInTheDocument()
     expect(screen.getByText(/1 hrs/)).toBeInTheDocument()
   })
 
   it("comprehensive: shows dates for each entry", () => {
-    render(<EntryList />)
+    render(<EntryList />, { wrapper: Wrapper })
     expect(screen.getByText(/2024-01-15/)).toBeInTheDocument()
     expect(screen.getByText(/2024-01-16/)).toBeInTheDocument()
   })
 
   it("comprehensive: shows empty list when no entries", () => {
     vi.mocked(useOutletContext).mockReturnValueOnce({ entries: [] })
-
-    render(<EntryList />)
+    render(<EntryList />, { wrapper: Wrapper })
     expect(screen.getByText("Study Entries")).toBeInTheDocument()
     expect(screen.queryByText(/hrs/)).not.toBeInTheDocument()
   })
