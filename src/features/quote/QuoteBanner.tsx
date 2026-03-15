@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { Box, Button, Typography, CircularProgress, Paper } from '@mui/material'
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
-import { fetchRandomQuote, type Quote } from '../../api/quote'
+import { fetchRandomQuote } from '../../api/quote'
+import type { Quote } from '../../shared/types'
 
 const QuoteBanner: React.FC = () => {
   const [quote, setQuote] = useState<Quote | null>(null)

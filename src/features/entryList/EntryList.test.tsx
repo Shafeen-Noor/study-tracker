@@ -3,6 +3,7 @@ import { MemoryRouter, useOutletContext } from 'react-router-dom'
 import { FilterProvider } from '../../shared/context/FilterContext'
 import EntryList from './EntryList'
 import type { StudyEntry } from '../../shared/types'
+import { describe, expect, it, vi } from 'vitest'
 
 const mockEntries: StudyEntry[] = [
   { id: '1', subject: 'Math', topic: 'Algebra', hours: 2, date: '2024-01-15' },
