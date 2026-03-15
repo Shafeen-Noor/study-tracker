@@ -1,31 +1,18 @@
-# 📚 Study Tracker
+# Study Tracker
 
 A personal study tracking application built with React, TypeScript, and Material UI.
 
 ## Features
 
-- 📝 Add study entries with subject, topic, hours, date and rich text notes
-- 🗂️ Pre-populated subject and topic lists with add/delete support
-- 📊 Dashboard with stats, progress bars, and most-studied subject
-- ✏️ Inline editing of entries with a full rich text editor
-- 🌙 Dark/light mode toggle
-- 💬 Motivational quote banner with refresh
-- 🔍 Filter entries by subject across dashboard and entry list
-- 💾 Data persisted in localStorage — no backend required
+- Add study entries with subject, topic, hours, date and rich text notes
+- Pre-populated subject and topic lists with add/delete support
+- Dashboard with stats, progress bars, and most-studied subject
+- Inline editing of entries with a full rich text editor
+- Dark/light mode toggle
+- Motivational quote banner with refresh
+- Filter entries by subject across dashboard and entry list
+- Data persisted in localStorage — no backend required
 
-## Tech Stack
-
-| Layer         | Technology                    |
-| ------------- | ----------------------------- |
-| UI            | React 18, Material UI v5      |
-| Language      | TypeScript                    |
-| Routing       | React Router v6 (Data Router) |
-| Data Fetching | TanStack Query                |
-| Rich Text     | Tiptap                        |
-| State         | React Context                 |
-| Storage       | localStorage                  |
-| Testing       | Vitest, React Testing Library |
-| CI/CD         | GitHub Actions → GitHub Pages |
 
 ## Architecture Overview
 
