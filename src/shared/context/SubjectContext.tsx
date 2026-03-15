@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState } from 'react'
 
 interface SubjectsContextType {
   subjects: string[]
@@ -14,28 +14,27 @@ const SubjectsContext = createContext<SubjectsContextType | null>(null)
 // eslint-disable-next-line react-refresh/only-export-components
 export function useSubjects() {
   const context = useContext(SubjectsContext)
-  if (!context)
-    throw new Error("useSubjects must be used inside SubjectsProvider")
+  if (!context) throw new Error('useSubjects must be used inside SubjectsProvider')
   return context
 }
 
 export function SubjectsProvider({ children }: { children: React.ReactNode }) {
   const [subjects, setSubjects] = useState<string[]>([
-    "Math",
-    "Science",
-    "History",
-    "English",
-    "Physics",
-    "Chemistry",
+    'Math',
+    'Science',
+    'History',
+    'English',
+    'Physics',
+    'Chemistry',
   ])
 
   const [topics, setTopics] = useState<Record<string, string[]>>({
-    Math: ["Algebra", "Calculus", "Geometry"],
-    Science: ["Biology", "Physics", "Chemistry"],
-    History: ["Ancient Rome", "World War II", "Renaissance"],
-    English: ["Literature", "Grammar", "Writing"],
-    Physics: ["Mechanics", "Thermodynamics", "Optics"],
-    Chemistry: ["Organic", "Inorganic", "Physical"],
+    Math: ['Algebra', 'Calculus', 'Geometry'],
+    Science: ['Biology', 'Physics', 'Chemistry'],
+    History: ['Ancient Rome', 'World War II', 'Renaissance'],
+    English: ['Literature', 'Grammar', 'Writing'],
+    Physics: ['Mechanics', 'Thermodynamics', 'Optics'],
+    Chemistry: ['Organic', 'Inorganic', 'Physical'],
   })
 
   const addSubject = (subject: string) => {
@@ -57,7 +56,7 @@ export function SubjectsProvider({ children }: { children: React.ReactNode }) {
   }
 
   const removeSubject = (subject: string) => {
-    setSubjects(subjects.filter((s) => s !== subject))
+    setSubjects(subjects.filter(s => s !== subject))
     const newTopics = { ...topics }
     delete newTopics[subject]
     setTopics(newTopics)
@@ -66,7 +65,7 @@ export function SubjectsProvider({ children }: { children: React.ReactNode }) {
   const removeTopic = (subject: string, topic: string) => {
     setTopics({
       ...topics,
-      [subject]: topics[subject].filter((t) => t !== topic),
+      [subject]: topics[subject].filter(t => t !== topic),
     })
   }
 

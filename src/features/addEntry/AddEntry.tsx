@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { useOutletContext } from "react-router-dom"
+import { useState } from 'react'
+import { useOutletContext } from 'react-router-dom'
 import {
   TextField,
   Button,
@@ -10,44 +10,45 @@ import {
   ListItem,
   IconButton,
   Autocomplete,
-} from "@mui/material"
-import { Close as CloseIcon } from "@mui/icons-material"
-import type { StudyEntry } from "../../Logic"
-import { useSubjects } from "../../context/SubjectContext"
+} from '@mui/material'
+import { Close as CloseIcon } from '@mui/icons-material'
+import type { StudyEntry } from '../../shared/types'
+import { useSubjects } from '../../shared/context'
+import { RichTextEditor } from '../../shared/components'
 
 interface OutletContext {
   addEntry: (entry: StudyEntry) => void
+  updateEntry: (entry: StudyEntry) => void
+  deleteEntry: (id: string) => void
 }
 
 const AddEntry: React.FC = () => {
   const { addEntry } = useOutletContext<OutletContext>()
-  const { subjects, topics, addSubject, addTopic, removeSubject, removeTopic } =
-    useSubjects()
+  const { subjects, topics, addSubject, addTopic, removeSubject, removeTopic } = useSubjects()
 
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null)
-  const [subjectInput, setSubjectInput] = useState("")
+  const [subjectInput, setSubjectInput] = useState('')
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null)
-  const [topicInput, setTopicInput] = useState("")
+  const [topicInput, setTopicInput] = useState('')
   const [hours, setHours] = useState(0)
-  const [notes, setNotes] = useState("")
-  const [date, setDate] = useState("")
+  const [notes, setNotes] = useState('')
+  const [date, setDate] = useState('')
 
-  // Topics for the currently selected subject
   const subjectTopics = selectedSubject ? (topics[selectedSubject] ?? []) : []
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
 
     if (!selectedSubject || !selectedTopic || !date) {
-      alert("Please fill in all required fields")
+      alert('Please fill in all required fields')
       return
     }
 
-    // Save new subject/topic to context if they are new
     addSubject(selectedSubject)
     addTopic(selectedSubject, selectedTopic)
 
     addEntry({
+      id: '',
       subject: selectedSubject,
       topic: selectedTopic,
       hours,
@@ -55,27 +56,20 @@ const AddEntry: React.FC = () => {
       date,
     })
 
-    // Reset form
     setSelectedSubject(null)
-    setSubjectInput("")
+    setSubjectInput('')
     setSelectedTopic(null)
-    setTopicInput("")
+    setTopicInput('')
     setHours(0)
-    setNotes("")
-    setDate("")
+    setNotes('')
+    setDate('')
   }
 
   return (
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-        maxWidth: 500,
-        margin: "2rem auto",
-      }}
+      sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 500, margin: '2rem auto' }}
     >
       <Typography variant="h5">Add Study Entry</Typography>
 
@@ -87,14 +81,14 @@ const AddEntry: React.FC = () => {
         onChange={(_, value) => {
           setSelectedSubject(value)
           setSelectedTopic(null)
-          setTopicInput("")
+          setTopicInput('')
         }}
         inputValue={subjectInput}
         onInputChange={(_, value) => {
           setSubjectInput(value)
           setSelectedSubject(value)
         }}
-        renderInput={(params) => (
+        renderInput={params => (
           <TextField
             {...params}
             label="Subject"
@@ -111,12 +105,12 @@ const AddEntry: React.FC = () => {
               <IconButton
                 size="small"
                 edge="end"
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation()
                   removeSubject(option)
                   if (selectedSubject === option) {
                     setSelectedSubject(null)
-                    setSubjectInput("")
+                    setSubjectInput('')
                   }
                 }}
               >
@@ -129,7 +123,7 @@ const AddEntry: React.FC = () => {
         )}
       />
 
-      {/* Topic autocomplete — only shows after subject is selected */}
+      {/* Topic autocomplete — only shows after subject selected */}
       {selectedSubject && (
         <>
           <Autocomplete
@@ -142,7 +136,7 @@ const AddEntry: React.FC = () => {
               setTopicInput(value)
               setSelectedTopic(value)
             }}
-            renderInput={(params) => (
+            renderInput={params => (
               <TextField
                 {...params}
                 label="Topic"
@@ -159,12 +153,12 @@ const AddEntry: React.FC = () => {
                   <IconButton
                     size="small"
                     edge="end"
-                    onClick={(e) => {
+                    onClick={e => {
                       e.stopPropagation()
                       removeTopic(selectedSubject, option)
                       if (selectedTopic === option) {
                         setSelectedTopic(null)
-                        setTopicInput("")
+                        setTopicInput('')
                       }
                     }}
                   >
@@ -183,13 +177,13 @@ const AddEntry: React.FC = () => {
               <Typography variant="body2" sx={{ mb: 1 }}>
                 <strong>Previous topics for {selectedSubject}:</strong>
               </Typography>
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                {subjectTopics.map((t) => (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                {subjectTopics.map(t => (
                   <Chip
                     key={t}
                     label={t}
-                    variant={selectedTopic === t ? "filled" : "outlined"}
-                    color={selectedTopic === t ? "primary" : "default"}
+                    variant={selectedTopic === t ? 'filled' : 'outlined'}
+                    color={selectedTopic === t ? 'primary' : 'default'}
                     onClick={() => {
                       setSelectedTopic(t)
                       setTopicInput(t)
@@ -208,23 +202,20 @@ const AddEntry: React.FC = () => {
         type="number"
         inputProps={{ step: 0.5, min: 0 }}
         value={hours}
-        onChange={(e) => setHours(Number(e.target.value))}
+        onChange={e => setHours(Number(e.target.value))}
         required
       />
 
-      <TextField
-        label="Notes (optional)"
-        multiline
-        rows={3}
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
-      />
+      <Typography variant="body2" color="text.secondary">
+        Notes (optional)
+      </Typography>
+      <RichTextEditor content={notes} onChange={(html: string) => setNotes(html)} />
 
       <TextField
         label="Date"
         type="date"
         value={date}
-        onChange={(e) => setDate(e.target.value)}
+        onChange={e => setDate(e.target.value)}
         InputLabelProps={{ shrink: true }}
         required
       />

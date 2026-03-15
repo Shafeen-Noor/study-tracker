@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/react"
-import { MemoryRouter } from "react-router-dom"
-import { ThemeModeProvider } from "../context/ThemeContext"
-import RootLayout from "./RootLayout"
+import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
+import { ThemeModeProvider } from '../shared/context/ThemeContext'
+import RootLayout from './RootLayout'
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeModeProvider>
@@ -9,14 +9,14 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => (
   </ThemeModeProvider>
 )
 
-describe("RootLayout", () => {
-  it("smoke: renders without crashing", () => {
+describe('RootLayout', () => {
+  it('smoke: renders without crashing', () => {
     render(<RootLayout />, { wrapper: Wrapper })
   })
 
-  it("smoke: shows navigation links", () => {
+  it('smoke: shows navigation links', () => {
     render(<RootLayout />, { wrapper: Wrapper })
-    expect(screen.getByText("Add Entry")).toBeInTheDocument()
-    expect(screen.getByText("My Entries")).toBeInTheDocument()
+    expect(screen.getByText('Add Entry')).toBeInTheDocument()
+    expect(screen.getByText('My Entries')).toBeInTheDocument()
   })
 })
