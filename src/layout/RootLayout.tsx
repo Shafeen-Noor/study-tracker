@@ -2,7 +2,7 @@ import { Outlet, NavLink } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Button, Container, IconButton } from '@mui/material'
 import { Brightness4, Brightness7 } from '@mui/icons-material'
 import { useThemeMode } from '../shared/context'
-import { QuoteBanner } from '../features/quote'
+import { QuoteBanner } from '../pages/Quote'
 
 const RootLayout: React.FC = () => {
   const { isDarkMode, toggleTheme } = useThemeMode()

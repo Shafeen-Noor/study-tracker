@@ -1,30 +1,30 @@
 import { useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
 import {
-  TextField,
-  Button,
-  Box,
-  Typography,
-  Paper,
-  Chip,
-  ListItem,
-  IconButton,
   Autocomplete,
+  Box,
+  Button,
+  IconButton,
+  ListItem,
+  TextField,
+  Typography,
 } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material'
-import type { StudyEntry } from '../../shared/types'
 import { useSubjects } from '../../shared/context'
-import { RichTextEditor } from '../../shared/components'
+import { RichTextEditor } from '../../shared/components/RichTextEditor'
+import TopicChips from './TopicChips'
 
-interface OutletContext {
-  addEntry: (entry: StudyEntry) => void
-  updateEntry: (entry: StudyEntry) => void
-  deleteEntry: (id: string) => void
+interface EntryFormProps {
+  onSubmit: (fields: {
+    subject: string
+    topic: string
+    hours: number
+    notes: string
+    date: string
+  }) => void
 }
 
-const AddEntry: React.FC = () => {
-  const { addEntry } = useOutletContext<OutletContext>()
-  const { subjects, topics, addSubject, addTopic, removeSubject, removeTopic } = useSubjects()
+const EntryForm: React.FC<EntryFormProps> = ({ onSubmit }) => {
+  const { subjects, topics, addSubject, removeTopic, removeSubject } = useSubjects()
 
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null)
   const [subjectInput, setSubjectInput] = useState('')
@@ -36,26 +36,14 @@ const AddEntry: React.FC = () => {
 
   const subjectTopics = selectedSubject ? (topics[selectedSubject] ?? []) : []
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
     if (!selectedSubject || !selectedTopic || !date) {
       alert('Please fill in all required fields')
       return
     }
-
     addSubject(selectedSubject)
-    addTopic(selectedSubject, selectedTopic)
-
-    addEntry({
-      id: '',
-      subject: selectedSubject,
-      topic: selectedTopic,
-      hours,
-      notes,
-      date,
-    })
-
+    onSubmit({ subject: selectedSubject, topic: selectedTopic, hours, notes, date })
     setSelectedSubject(null)
     setSubjectInput('')
     setSelectedTopic(null)
@@ -69,11 +57,8 @@ const AddEntry: React.FC = () => {
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 500, margin: '2rem auto' }}
+      sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
     >
-      <Typography variant="h5">Add Study Entry</Typography>
-
-      {/* Subject autocomplete */}
       <Autocomplete
         freeSolo
         options={subjects}
@@ -123,7 +108,6 @@ const AddEntry: React.FC = () => {
         )}
       />
 
-      {/* Topic autocomplete — only shows after subject selected */}
       {selectedSubject && (
         <>
           <Autocomplete
@@ -171,29 +155,14 @@ const AddEntry: React.FC = () => {
             )}
           />
 
-          {/* Previous topics as clickable chips */}
-          {subjectTopics.length > 0 && (
-            <Paper sx={{ padding: 2 }}>
-              <Typography variant="body2" sx={{ mb: 1 }}>
-                <strong>Previous topics for {selectedSubject}:</strong>
-              </Typography>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                {subjectTopics.map(t => (
-                  <Chip
-                    key={t}
-                    label={t}
-                    variant={selectedTopic === t ? 'filled' : 'outlined'}
-                    color={selectedTopic === t ? 'primary' : 'default'}
-                    onClick={() => {
-                      setSelectedTopic(t)
-                      setTopicInput(t)
-                    }}
-                    onDelete={() => removeTopic(selectedSubject, t)}
-                  />
-                ))}
-              </Box>
-            </Paper>
-          )}
+          <TopicChips
+            subject={selectedSubject}
+            selectedTopic={selectedTopic}
+            onSelect={t => {
+              setSelectedTopic(t)
+              setTopicInput(t)
+            }}
+          />
         </>
       )}
 
@@ -227,4 +196,4 @@ const AddEntry: React.FC = () => {
   )
 }
 
-export default AddEntry
+export default EntryForm

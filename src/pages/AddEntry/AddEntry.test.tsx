@@ -1,23 +1,30 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { SubjectsProvider } from '../../shared/context/SubjectContext'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import AddEntry from './AddEntry'
 
 const mockAddEntry = vi.fn()
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useOutletContext: () => ({ addEntry: mockAddEntry }),
-  }
-})
+vi.mock('../../shared/context', () => ({
+  useEntries: () => ({
+    entries: [],
+    addEntry: mockAddEntry,
+    updateEntry: vi.fn(),
+    deleteEntry: vi.fn(),
+  }),
+  useSubjects: () => ({
+    subjects: ['Math', 'Science'],
+    topics: { Math: ['Algebra'], Science: ['Biology'] },
+    addSubject: vi.fn(),
+    addTopic: vi.fn(),
+    removeSubject: vi.fn(),
+    removeTopic: vi.fn(),
+  }),
+}))
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => (
-  <SubjectsProvider>
-    <MemoryRouter>{children}</MemoryRouter>
-  </SubjectsProvider>
+  <MemoryRouter>{children}</MemoryRouter>
 )
 
 describe('AddEntry', () => {
